@@ -49,7 +49,7 @@ function Barchart({ data }) {
           <Bar
             yAxisId='left'
             dataKey='ofd'
-            fill='#8884d8'
+            fill='#cdcbf5'
             // label={{ fill: 'red', fontSize: 14, position: 'insideBottom' }}
           />
           <Bar
