@@ -1,7 +1,6 @@
 import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
-import Barchart from './charts/Barchart';
-import Traffic from './Traffic';
+import { Contacts, Barchart } from '../components/Contacts';
 import './Dashboard.css';
 
 const Style = {
@@ -10,9 +9,11 @@ const Style = {
   border: 'none',
   borderRadius: '0',
   marginLeft: '10px',
+  marginRight: '2px',
 };
 
 function Dashboard({ monthly, daily }) {
+  console.log('Daily data:', daily);
   return (
     <div>
       <Grid columns={2}>
@@ -22,12 +23,12 @@ function Dashboard({ monthly, daily }) {
               <Barchart data={daily} />
             </Segment>
             <Segment style={Style}>
-              <Traffic data={monthly} mnt={true} />
+              <Contacts contacts={monthly} mnt={true} />
             </Segment>
           </Grid.Column>
-          <Grid.Column width={5} style={{ paddingRight: '0' }}>
+          <Grid.Column width={5}>
             <Segment style={Style}>
-              <Traffic data={daily} mnt={false} />
+              <Contacts contacts={daily} mnt={false} />
             </Segment>
           </Grid.Column>
         </Grid.Row>
@@ -37,40 +38,3 @@ function Dashboard({ monthly, daily }) {
 }
 
 export default Dashboard;
-
-{
-  /* <div>
-<Grid>
-  <Grid.Column mobile={16} tablet={8} computer={4}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column mobile={16} tablet={8} computer={4}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column mobile={16} tablet={8} computer={4}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column mobile={16} tablet={8} computer={4}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column mobile={16} tablet={8} computer={4}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-</Grid>
-
-<Grid>
-  <Grid.Column largeScreen={2} widescreen={1}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column largeScreen={2} widescreen={1}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column largeScreen={2} widescreen={1}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-  <Grid.Column largeScreen={2} widescreen={1}>
-    <Image src='/images/wireframe/paragraph.png' />
-  </Grid.Column>
-</Grid>
-</div> */
-}
