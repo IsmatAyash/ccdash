@@ -32,7 +32,7 @@ export const Columns = mnt => [
   {
     key: 4,
     path: 'abandoned',
-    label: 'Aba',
+    label: 'Abn',
     format: 'num',
   },
   {
@@ -47,10 +47,10 @@ export const Columns = mnt => [
   },
   {
     key: 6,
-    path: 'aRate',
+    path: 'abnRate',
     label: 'AR',
     cellstyle: true,
     format: 'per',
-    content: tra => <Icon name={tra.aRate < 5 ? 'checkmark' : 'attention'} />,
+    content: tra => <Icon name={tra.abnRate < 5 ? 'checkmark' : 'attention'} />,
   },
 ];

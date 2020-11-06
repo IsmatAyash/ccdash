@@ -6,8 +6,7 @@ const initialValues = dm => ({
   answered: 0,
   abandoned: 0,
   serviceLevel: 0,
-  aRate: 0,
-  aftThreshold: 0,
+  abnRate: 0,
   count: 0,
 });
 
@@ -22,8 +21,7 @@ export function groupData(data) {
     res[value.dayMonth].answered += value.answered;
     res[value.dayMonth].abandoned += value.abandoned;
     res[value.dayMonth].serviceLevel += value.serviceLevel;
-    res[value.dayMonth].aRate += value.aRate;
-    res[value.dayMonth].aftThreshold += value.aftThreshold;
+    res[value.dayMonth].abnRate += value.abnRate;
     res[value.dayMonth].count++;
     res[value.dayMonth].contactType = value.contactType;
     return res;
@@ -39,8 +37,7 @@ export function groupData(data) {
         answered: a.answered,
         abandoned: a.abandoned,
         serviceLevel: a.serviceLevel / a.count,
-        aRate: a.aRate / a.count,
-        aftThreshold: a.aftThreshold,
+        abnRate: a.abnRate / a.count,
       };
     }),
     'dayMonth',

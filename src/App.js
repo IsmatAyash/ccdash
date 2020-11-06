@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/common/Navbar';
+import Navbar from './components/Navbar';
 import { groupData } from './utils/helper';
-import Dashboard from './components/Dashboard';
+import Contacts from './components/Contacts/Contacts';
 import { CcdashContext } from './services/context';
+import Trends from './components/Trends/Trends';
 
 function App() {
   const { monthly, daily } = React.useContext(CcdashContext);
@@ -13,7 +14,7 @@ function App() {
   const channels = data => {
     return selectedChannel === 'all'
       ? groupData(data)
-      : data.filter(c => c.contactType === selectedChannel);
+      : groupData(data.filter(c => c.contactType === selectedChannel));
   };
 
   const handleChannelSelect = name => {
@@ -21,13 +22,14 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navbar
+    <>
+      {/* <Navbar
         onItemSelect={handleChannelSelect}
         selectedItem={selectedChannel}
-      />
-      <Dashboard monthly={channels(monthly)} daily={channels(daily)} />
-    </Router>
+      /> */}
+      <Route path='/' render={() => <Contacts />}></Route>
+      <Route path='/trends' component={Trends} />
+    </>
   );
 }
 

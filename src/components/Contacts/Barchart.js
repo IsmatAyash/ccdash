@@ -30,7 +30,7 @@ function Barchart({ data }) {
   const daily = data.map(d => {
     return {
       name: d.dayMonth,
-      sl: ((d.offered - d.aftThreshold) / d.offered) * 100,
+      sl: d.serviceLevel,
       ans: d.answered,
       ofd: d.offered,
     };
@@ -45,7 +45,7 @@ function Barchart({ data }) {
           <YAxis yAxisId='left' />
           <YAxis yAxisId='right' orientation='right' />
           <Tooltip />
-          <Legend iconType='circle' iconSize='12' />
+          <Legend iconType='circle' iconSize={12} />
           <Bar
             yAxisId='left'
             dataKey='ofd'

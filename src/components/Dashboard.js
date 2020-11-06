@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
-import { Contacts, Barchart } from '../components/Contacts';
+import { ContactsTable, Barchart } from '../components/Contacts';
 import './Dashboard.css';
 
 const Style = {
@@ -13,7 +13,6 @@ const Style = {
 };
 
 function Dashboard({ monthly, daily }) {
-  console.log('Daily data:', daily);
   return (
     <div>
       <Grid columns={2}>
@@ -23,12 +22,12 @@ function Dashboard({ monthly, daily }) {
               <Barchart data={daily} />
             </Segment>
             <Segment style={Style}>
-              <Contacts contacts={monthly} mnt={true} />
+              <ContactsTable contacts={monthly} mnt={true} />
             </Segment>
           </Grid.Column>
           <Grid.Column width={5}>
             <Segment style={Style}>
-              <Contacts contacts={daily} mnt={false} />
+              <ContactsTable contacts={daily} mnt={false} />
             </Segment>
           </Grid.Column>
         </Grid.Row>

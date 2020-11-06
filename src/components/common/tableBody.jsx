@@ -11,7 +11,7 @@ const renderCell = (item, column) => {
 
 const renderStyle = (item, column) => {
   if (column.cellstyle)
-    if (column.path === 'aRate')
+    if (column.path === 'abnRate')
       return _.get(item, column.path) < 5 ? 'positive' : 'negative';
     else return _.get(item, column.path) > 80 ? 'positive' : 'negative';
   return null;
@@ -21,7 +21,7 @@ const renderFormat = (item, column) => {
   if (column.format)
     return (
       <NumberFormat
-        value={Math.trunc(_.get(item, column.path))}
+        value={Math.round(_.get(item, column.path))}
         displayType={'text'}
         thousandSeparator={true}
         suffix={column.format === 'per' && '%'}></NumberFormat>
@@ -35,7 +35,10 @@ function TableBody({ data, columns }) {
       {data.map(item => (
         <Table.Row key={item.id}>
           {columns.map(column => (
-            <Table.Cell key={column.key} className={renderStyle(item, column)}>
+            <Table.Cell
+              key={column.key}
+              className={renderStyle(item, column)}
+              style={{ fontSize: '11px' }}>
               {renderCell(item, column)}
               {renderFormat(item, column)}
             </Table.Cell>

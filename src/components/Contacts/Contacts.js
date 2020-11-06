@@ -1,48 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { Table } from 'semantic-ui-react';
-import TableHeader from '../common/tableHeader';
-import TableBody from '../common/tableBody';
-import { Columns } from './Columns';
-import _ from 'lodash';
+import React, { useState, useContext } from 'react';
+import { Grid, Segment } from 'semantic-ui-react';
+import Barchart from './Barchart';
+import ContactsTable from './ContactsTable';
+import { groupData } from '../../utils/helper';
+import Navbar from './../Navbar';
+import { CcdashContext } from '../../services/context';
 import './Contacts.css';
 
-const Contacts = ({ contacts, mnt }) => {
-  const [sortCol, setSortCol] = useState({
-    path: 'dayMonth',
-    order: 'ascending',
-  });
-  const [data, setData] = useState([]);
+const Style = {
+  background: 'transparent',
+  boxShadow: 'none',
+  border: 'none',
+  borderRadius: '0',
+  marginLeft: '10px',
+  marginRight: '2px',
+};
 
-  useEffect(() => {
-    setData(contacts);
-  }, [contacts]);
+const Contacts = () => {
+  const { monthly, daily } = useContext(CcdashContext);
+  const [selectedChannel, setSelectedChannel] = useState('all');
 
-  const handleSort = sortColumn => {
-    if (sortCol.path === sortColumn.path) {
-      setData(data.reverse());
-      const order =
-        sortColumn.order === 'ascending' ? 'descending' : 'ascending';
-      setSortCol({ ...sortCol, order: order });
-    } else {
-      setData(_.sortBy(data, [sortColumn.path]));
-      setSortCol({ path: sortColumn.path, order: 'ascending' });
-    }
+  const channels = data => {
+    return selectedChannel === 'all'
+      ? groupData(data)
+      : groupData(data.filter(c => c.contactType === selectedChannel));
   };
 
-  const columns = Columns(mnt);
+  const handleChannelSelect = name => {
+    setSelectedChannel(name);
+  };
 
   return (
-    <Table
-      celled
-      compact='very'
-      sortable
-      size='small'
-      selectable
-      textAlign='center'
-      verticalAlign='middle'>
-      <TableHeader columns={columns} sortColumn={sortCol} onSort={handleSort} />
-      <TableBody data={data} columns={columns} />
-    </Table>
+    <div>
+      <Navbar
+        onItemSelect={handleChannelSelect}
+        selectedItem={selectedChannel}
+      />
+
+      <Grid columns={2}>
+        <Grid.Row stretched>
+          <Grid.Column width={11} className='dashboard-column'>
+            <Segment style={Style}>
+              <Barchart data={daily} />
+            </Segment>
+            <Segment style={Style}>
+              <ContactsTable contacts={channels(monthly)} mnt={true} />
+            </Segment>
+          </Grid.Column>
+          <Grid.Column width={5}>
+            <Segment style={Style}>
+              <ContactsTable contacts={channels(daily)} mnt={false} />
+            </Segment>
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
+    </div>
   );
 };
 

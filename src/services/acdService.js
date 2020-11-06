@@ -1,6 +1,6 @@
 import http from './httpService';
 
-const apiEndpoint = '/acd';
+const apiEndpoint = '/aacc';
 
 function trafficUrl(id) {
   return `${apiEndpoint}/${id}`;
