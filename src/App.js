@@ -1,34 +1,28 @@
 import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
-import './App.css';
-import Navbar from './components/Navbar';
-import { groupData } from './utils/helper';
-import Contacts from './components/Contacts/Contacts';
-import { CcdashContext } from './services/context';
+import { Route, Switch } from 'react-router-dom';
+import Contacts from './components/Contacts';
 import Trends from './components/Trends/Trends';
+import Dashboard from './components/Dashboard';
+import './App.css';
+import 'semantic-ui-css/semantic.min.css';
+import Menubar from './components/Dashboard/Menubar';
 
 function App() {
-  const { monthly, daily } = React.useContext(CcdashContext);
-  const [selectedChannel, setSelectedChannel] = useState('all');
+  const [visible, setVisible] = useState(false);
 
-  const channels = data => {
-    return selectedChannel === 'all'
-      ? groupData(data)
-      : groupData(data.filter(c => c.contactType === selectedChannel));
-  };
-
-  const handleChannelSelect = name => {
-    setSelectedChannel(name);
+  const toggleMenu = () => {
+    setVisible(!visible);
   };
 
   return (
     <>
-      {/* <Navbar
-        onItemSelect={handleChannelSelect}
-        selectedItem={selectedChannel}
-      /> */}
-      <Route path='/' render={() => <Contacts />}></Route>
-      <Route path='/trends' component={Trends} />
+      <Menubar onToggleMenu={() => toggleMenu()} />
+
+      <Switch>
+        <Route exact path='/' render={() => <Dashboard visible={visible} />} />
+        <Route path='/contacts' render={() => <Contacts />}></Route>
+        <Route path='/trends' component={Trends} />
+      </Switch>
     </>
   );
 }

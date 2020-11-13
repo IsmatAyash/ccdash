@@ -6,6 +6,16 @@ const CcdashContext = React.createContext();
 const CcdashProvider = ({ children }) => {
   const [monthly, setMonthly] = useState([]);
   const [daily, setDaily] = useState([]);
+  const [channel, setChannel] = useState('all');
+  const [dashboard, setDashboard] = useState('Home');
+
+  const updateChannel = name => {
+    setChannel(name);
+  };
+
+  const updateDashboard = item => {
+    setDashboard(item);
+  };
 
   useEffect(() => {
     async function getMonthly() {
@@ -24,7 +34,15 @@ const CcdashProvider = ({ children }) => {
   }, []);
 
   return (
-    <CcdashContext.Provider value={{ monthly, daily }}>
+    <CcdashContext.Provider
+      value={{
+        monthly,
+        daily,
+        channel,
+        updateChannel,
+        dashboard,
+        updateDashboard,
+      }}>
       {children}
     </CcdashContext.Provider>
   );

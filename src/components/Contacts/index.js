@@ -1,9 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Grid, Segment } from 'semantic-ui-react';
 import Barchart from './Barchart';
 import ContactsTable from './ContactsTable';
 import { groupData } from '../../utils/helper';
-import Navbar from './../Navbar';
 import { CcdashContext } from '../../services/context';
 import './Contacts.css';
 
@@ -17,31 +16,21 @@ const Style = {
 };
 
 const Contacts = () => {
-  const { monthly, daily } = useContext(CcdashContext);
-  const [selectedChannel, setSelectedChannel] = useState('all');
+  const { monthly, daily, channel } = useContext(CcdashContext);
 
   const channels = data => {
-    return selectedChannel === 'all'
+    return channel === 'all'
       ? groupData(data)
-      : groupData(data.filter(c => c.contactType === selectedChannel));
-  };
-
-  const handleChannelSelect = name => {
-    setSelectedChannel(name);
+      : groupData(data.filter(c => c.contactType === channel));
   };
 
   return (
     <div>
-      <Navbar
-        onItemSelect={handleChannelSelect}
-        selectedItem={selectedChannel}
-      />
-
       <Grid columns={2}>
         <Grid.Row stretched>
           <Grid.Column width={11} className='dashboard-column'>
             <Segment style={Style}>
-              <Barchart data={daily} />
+              <Barchart data={channels(daily)} />
             </Segment>
             <Segment style={Style}>
               <ContactsTable contacts={channels(monthly)} mnt={true} />
