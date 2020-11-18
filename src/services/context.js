@@ -8,6 +8,7 @@ const CcdashProvider = ({ children }) => {
   const [daily, setDaily] = useState([]);
   const [channel, setChannel] = useState('all');
   const [dashboard, setDashboard] = useState('Home');
+  const [visible, setVisible] = useState(false);
 
   const updateChannel = name => {
     setChannel(name);
@@ -15,6 +16,10 @@ const CcdashProvider = ({ children }) => {
 
   const updateDashboard = item => {
     setDashboard(item);
+  };
+
+  const updateVisible = () => {
+    setVisible(!visible);
   };
 
   useEffect(() => {
@@ -42,6 +47,8 @@ const CcdashProvider = ({ children }) => {
         updateChannel,
         dashboard,
         updateDashboard,
+        visible,
+        updateVisible,
       }}>
       {children}
     </CcdashContext.Provider>
