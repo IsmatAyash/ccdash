@@ -1,7 +1,7 @@
-import http from './httpService';
+import http from "./httpService";
 
-const apiEndpoint = '/aacc';
-const qualityEndpoint = '/quality';
+const apiEndpoint = "/aacc";
+const qualityEndpoint = "/quality";
 
 function trafficUrl(id) {
   return `${apiEndpoint}/${id}`;

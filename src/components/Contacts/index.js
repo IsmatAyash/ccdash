@@ -1,10 +1,10 @@
-import React, { useContext } from 'react';
-import { Grid, Segment } from 'semantic-ui-react';
-import Barchart from './Barchart';
-import ContactsTable from './ContactsTable';
-import { groupData } from '../../utils/helper';
-import { CcdashContext } from '../../services/context';
-import styled from 'styled-components';
+import React, { useContext } from "react";
+import { Grid, Segment } from "semantic-ui-react";
+import Barchart from "./Barchart";
+import ContactsTable from "./ContactsTable";
+import { groupData } from "../../utils/helper";
+import { CcdashContext } from "../../services/context";
+import styled from "styled-components";
 
 const StyledSegment = styled(Segment)`
   box-shadow: none !important;
@@ -15,7 +15,7 @@ const Contacts = () => {
   const { monthly, daily, channel } = useContext(CcdashContext);
 
   const channels = data => {
-    return channel === 'all'
+    return channel === "all"
       ? groupData(data)
       : groupData(data.filter(c => c.contactType === channel));
   };
