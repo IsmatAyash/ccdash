@@ -1,6 +1,5 @@
 import React from 'react';
 import { Icon, Menu } from 'semantic-ui-react';
-import './QualityBar.css';
 
 function QualityBar({ selectedTeam, onTeamSelect }) {
   const teams = [
@@ -20,8 +19,8 @@ function QualityBar({ selectedTeam, onTeamSelect }) {
   ];
 
   return (
-    <div>
-      <Menu inverted attached stackable className='menu-margin' size='small'>
+    <>
+      <Menu inverted attached='top' stackable size='small' borderless>
         {teams.map(tm => (
           <Menu.Item
             key={tm.id}
@@ -34,7 +33,7 @@ function QualityBar({ selectedTeam, onTeamSelect }) {
           </Menu.Item>
         ))}
       </Menu>
-    </div>
+    </>
   );
 }
 

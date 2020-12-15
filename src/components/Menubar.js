@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import ContactsBar from "./Contacts/ContactsBar";
-import { Menu, Icon } from "semantic-ui-react";
-import { CcdashContext } from "../services/context";
-import QualityBar from "./Quality/QualityBar";
+import React, { useContext } from 'react';
+import ContactsBar from './Contacts/ContactsBar';
+import { Menu, Icon } from 'semantic-ui-react';
+import { CcdashContext } from '../services/context';
+import QualityBar from './Quality/QualityBar';
 
 const Menubar = ({ onToggleMenu }) => {
   const {
@@ -18,11 +18,11 @@ const Menubar = ({ onToggleMenu }) => {
   const today = new Date();
   const years = [today.getFullYear(), today.getFullYear() - 1];
   const menuTitle =
-    dashboard === "Contacts"
-      ? `${today.toLocaleString("default", {
-          month: "long",
+    dashboard === 'Contacts'
+      ? `${today.toLocaleString('default', {
+          month: 'long',
         })} ${today.getFullYear()}`
-      : "Ebanking Wallboard...";
+      : 'Ebanking Wallboard...';
 
   const handleChannelSelect = name => {
     updateChannel(name);
@@ -37,49 +37,49 @@ const Menubar = ({ onToggleMenu }) => {
   };
 
   return (
-    <Menu inverted stackable attached>
+    <Menu stackable attached='top' borderless inverted compact>
       <Menu.Item onClick={onToggleMenu}>
-        <div className="ui transparent icon">
-          <Icon name="bars"></Icon> Menu
+        <div className='ui transparent icon'>
+          <Icon name='bars'></Icon> Menu
         </div>
       </Menu.Item>
-      <Menu.Menu>
-        {dashboard === "Contacts" && (
+      <Menu.Menu borderless>
+        {dashboard === 'Contacts' && (
           <ContactsBar
             onItemSelect={handleChannelSelect}
             selectedItem={channel}
           />
         )}
-        {dashboard === "Quality" && (
+        {dashboard === 'Quality' && (
           <QualityBar onTeamSelect={handleTeamSelect} selectedTeam={team} />
         )}
       </Menu.Menu>
-      <Menu.Menu position="right">
-        {dashboard === "Quality" ? (
+      <Menu.Menu position='right'>
+        {dashboard === 'Quality' ? (
           <>
-            <div className="ui right aligned item">
-              <div className="ui transparent icon">
-                <Icon name="hand point right" />
+            <div className='ui right aligned item'>
+              <div className='ui transparent icon'>
+                <Icon name='hand point right' />
               </div>
             </div>
             {years.map(yr => (
               <Menu.Item
                 key={yr}
                 name={yr.toString()}
-                color="teal"
+                color='teal'
                 active={yr === year}
-                onClick={() => handleYearSelect(yr)}
-              >
+                onClick={() => handleYearSelect(yr)}>
                 {yr}
               </Menu.Item>
             ))}
           </>
         ) : (
-          <div className="ui right aligned item">
-            <div className="ui transparent icon">
+          <div className='ui right aligned item'>
+            <div className='ui transparent icon'>
               <Icon
-                name={dashboard === "Contacts" ? "database" : "dashboard"}
-              ></Icon>
+                name={
+                  dashboard === 'Contacts' ? 'database' : 'dashboard'
+                }></Icon>
               <span style={{ margin: 5 }}>{menuTitle}</span>
             </div>
           </div>
