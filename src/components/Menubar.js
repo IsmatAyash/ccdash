@@ -43,7 +43,7 @@ const Menubar = ({ onToggleMenu }) => {
           <Icon name='bars'></Icon> Menu
         </div>
       </Menu.Item>
-      <Menu.Menu borderless>
+      <Menu.Menu>
         {dashboard === 'Contacts' && (
           <ContactsBar
             onItemSelect={handleChannelSelect}

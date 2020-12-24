@@ -1,81 +1,86 @@
 import React from 'react';
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  Line,
-  Area,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend } from 'recharts';
+import { Card, Icon } from 'semantic-ui-react';
 
-const data = [
-  {
-    name: 'Page A',
-    uv: 590,
-    pv: 800,
-    amt: 1400,
-  },
-  {
-    name: 'Page B',
-    uv: 868,
-    pv: 967,
-    amt: 1506,
-  },
-  {
-    name: 'Page C',
-    uv: 1397,
-    pv: 1098,
-    amt: 989,
-  },
-  {
-    name: 'Page D',
-    uv: 1480,
-    pv: 1200,
-    amt: 1228,
-  },
-  {
-    name: 'Page E',
-    uv: 1520,
-    pv: 1108,
-    amt: 1100,
-  },
-  {
-    name: 'Page F',
-    uv: 1400,
-    pv: 680,
-    amt: 1700,
-  },
-];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF8042'];
 
-const QualityChart = () => {
+const renderCustomizedLabel = ({
+  cx,
+  cy,
+  midAngle,
+  innerRadius,
+  outerRadius,
+  value,
+}) => {
+  const RADIAN = Math.PI / 180;
+  const radius = 80 - innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
   return (
-    <div style={{ width: '100%', height: 300 }}>
-      <ResponsiveContainer>
-        <ComposedChart
-          width={500}
-          height={400}
-          data={data}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20,
+    <g>
+      <text
+        x={x}
+        y={y}
+        fill='black'
+        textAnchor={x > cx ? 'start' : 'end'}
+        dominantBaseline='central'
+        fontSize={11}
+        fontWeight='bold'>
+        {`${(value * 100).toFixed(0)}%`}
+      </text>
+    </g>
+  );
+};
+
+const renderColorfulLegendText = (value, { color }) => (
+  <span style={{ color }}>{value}</span>
+);
+
+const QualityChart = ({ comparative, period, color, icon }) => {
+  return (
+    <Card fluid color={color}>
+      <Card.Content>
+        <Icon
+          name={icon}
+          size='large'
+          color={color}
+          style={{ float: 'right' }}
+        />
+        <Card.Header>Grades {period}</Card.Header>
+        <Card.Meta>Quality quarterly grades</Card.Meta>
+        <div
+          style={{
+            width: '100%',
+            height: 200,
+            justifyContent: 'center',
           }}>
-          <CartesianGrid stroke='#f5f5f5' />
-          <XAxis dataKey='name' />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Area type='monotone' dataKey='amt' fill='#8884d8' stroke='#8884d8' />
-          <Bar dataKey='pv' barSize={20} fill='#413ea0' />
-          <Line type='monotone' dataKey='uv' stroke='#ff7300' />
-        </ComposedChart>
-      </ResponsiveContainer>
-    </div>
+          <ResponsiveContainer height='100%'>
+            <PieChart>
+              <Pie
+                data={comparative}
+                outerRadius={80}
+                innerRadius={45}
+                paddingAngle={5}
+                fill='#8884d8'
+                dataKey='value'
+                labelLine={false}
+                label={renderCustomizedLabel}>
+                {comparative.map(
+                  (entry, index) =>
+                    entry.value !== 0 && (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
+                    )
+                )}
+              </Pie>
+              <Legend formatter={renderColorfulLegendText} />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+      </Card.Content>
+    </Card>
   );
 };
 
