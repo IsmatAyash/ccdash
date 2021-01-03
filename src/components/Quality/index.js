@@ -11,11 +11,13 @@ import {
   gradesByPeriod,
   groupedByQtrYear,
   transposeGrades,
+  comparativeByYear,
 } from './helper';
 import _ from 'lodash';
 
 const Quality = () => {
-  const { quality, year, team } = useContext(CcdashContext);
+  const { contacts } = useContext(CcdashContext);
+  const { quality, year, team } = contacts;
 
   const agentsFiltered =
     team === 'Teams'
@@ -30,23 +32,6 @@ const Quality = () => {
       : gradesByPeriod(quality);
 
   const qtrKpis = groupedByQtrYear(kpisFiltered);
-
-  const comparative = yr =>
-    qtrKpis
-      .filter(y => y.year === yr)
-      .map(x => ({
-        name: x.qtr,
-        value: _.mean([
-          x.greeting,
-          x.handling,
-          x.care,
-          x.system,
-          x.sales,
-          x.etiquette,
-          x.knowledge,
-          x.response,
-        ]),
-      }));
   const currYear = new Date().getFullYear();
 
   return (
@@ -72,19 +57,19 @@ const Quality = () => {
         </Grid.Column>
         <Grid.Column stretched columns={8}>
           <Grid columns={3} stackable centered>
-            {[currYear, currYear - 1].map(y => (
-              <Grid.Column key={y} width={8}>
-                <QualityChart
-                  comparative={comparative(y)}
-                  period={y}
-                  color={y === currYear ? 'green' : 'red'}
-                  icon={y === currYear ? 'trophy' : 'certificate'}
-                />
-              </Grid.Column>
-            ))}
             <Grid.Column stretched width={16}>
               <OtherStats />
             </Grid.Column>
+            {[currYear, currYear - 1].map(yr => (
+              <Grid.Column key={yr} width={8}>
+                <QualityChart
+                  comparative={comparativeByYear(qtrKpis, yr)}
+                  period={yr}
+                  color={yr === currYear ? 'green' : 'red'}
+                  icon={yr === currYear ? 'trophy' : 'certificate'}
+                />
+              </Grid.Column>
+            ))}
           </Grid>
         </Grid.Column>
       </Grid>

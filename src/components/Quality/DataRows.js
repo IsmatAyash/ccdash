@@ -1,7 +1,7 @@
 export const dataCards = [
   {
     title: 'Customer Care',
-    description: 'Listening, Clarifying and Responding effectively',
+    description: 'Listening, Clarifying and Responding',
     icon: 'heart',
     grade: 90,
     code: 'care',

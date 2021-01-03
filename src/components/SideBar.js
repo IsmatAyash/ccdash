@@ -29,11 +29,12 @@ const sidebar = [
 ];
 
 const SideBar = () => {
-  const { updateDashboard, updateVisible, visible } = useContext(CcdashContext);
+  const { updDash, updVisible, contacts } = useContext(CcdashContext);
+  const { visible } = contacts;
 
   const handleClick = menuItem => {
-    updateVisible(!visible);
-    updateDashboard(menuItem);
+    updVisible(!visible);
+    updDash(menuItem);
   };
 
   const iconStyle = {

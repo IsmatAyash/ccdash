@@ -104,3 +104,20 @@ export const transposeGrades = result => {
   }
   return _.orderBy(_.tail(tra), 'final', 'desc').filter(g => g.final);
 };
+
+export const comparativeByYear = (qtrKpis, yr) =>
+  qtrKpis
+    .filter(y => y.year === yr)
+    .map(x => ({
+      name: x.qtr,
+      value: _.mean([
+        x.greeting,
+        x.handling,
+        x.care,
+        x.system,
+        x.sales,
+        x.etiquette,
+        x.knowledge,
+        x.response,
+      ]),
+    }));

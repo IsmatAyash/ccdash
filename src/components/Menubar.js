@@ -5,15 +5,8 @@ import { CcdashContext } from '../services/context';
 import QualityBar from './Quality/QualityBar';
 
 const Menubar = ({ onToggleMenu }) => {
-  const {
-    channel,
-    updateChannel,
-    dashboard,
-    year,
-    updateYear,
-    team,
-    updateTeam,
-  } = useContext(CcdashContext);
+  const { contacts, updYear, updTeam, updChannel } = useContext(CcdashContext);
+  const { channel, dashboard, team, year } = contacts;
 
   const today = new Date();
   const years = [today.getFullYear(), today.getFullYear() - 1];
@@ -25,15 +18,15 @@ const Menubar = ({ onToggleMenu }) => {
       : 'Ebanking Wallboard...';
 
   const handleChannelSelect = name => {
-    updateChannel(name);
+    updChannel(name);
   };
 
   const handleTeamSelect = tm => {
-    updateTeam(tm);
+    updTeam(tm);
   };
 
   const handleYearSelect = yr => {
-    updateYear(yr);
+    updYear(yr);
   };
 
   return (

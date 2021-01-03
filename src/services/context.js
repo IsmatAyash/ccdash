@@ -1,81 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, createContext, useReducer } from 'react';
 import { getTraffics, getTraffic, getQualityGrades } from './acdService';
+import {
+  MONTHLY,
+  DAILY,
+  QUALITY,
+  CHANNEL,
+  DASHBOARD,
+  YEAR,
+  TEAM,
+  VISIBLE,
+  ERROR,
+} from './actionTypes';
+import { initialState } from './initialState';
+import reducer from './reducer';
 
-const CcdashContext = React.createContext();
+const CcdashContext = createContext();
 
 const CcdashProvider = ({ children }) => {
-  const [monthly, setMonthly] = useState([]);
-  const [daily, setDaily] = useState([]);
-  const [channel, setChannel] = useState('all');
-  const [year, setYear] = useState(new Date().getFullYear());
-  const [dashboard, setDashboard] = useState('Home');
-  const [visible, setVisible] = useState(false);
-  const [quality, setQuality] = useState([]);
-  const [team, setTeam] = useState('Teams');
-
-  const updateChannel = name => {
-    setChannel(name);
-  };
-
-  const updateDashboard = item => {
-    setDashboard(item);
-  };
-
-  const updateVisible = () => {
-    setVisible(!visible);
-  };
-
-  const updateYear = yr => {
-    setYear(yr);
-  };
-
-  const updateTeam = tm => {
-    setTeam(tm);
-  };
+  const [contacts, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    async function getMonthly() {
-      const { data } = await getTraffics();
-      setMonthly(data);
-    }
-    getMonthly();
+    getTraffics()
+      .then(({ data }) => dispatch({ type: MONTHLY, payload: data }))
+      .catch(error => dispatch({ type: ERROR }));
   }, []);
 
-  useEffect(() => {
-    async function getDaily() {
-      const { data } = await getTraffic(new Date().getMonth() + 1);
-      setDaily(data);
-    }
-    getDaily();
-  }, []);
+  useEffect(
+    () =>
+      getTraffic(new Date().getMonth() + 1)
+        .then(({ data }) => dispatch({ type: DAILY, payload: data }))
+        .catch(error => dispatch({ type: ERROR })),
+    []
+  );
 
   useEffect(() => {
-    async function getQuality() {
-      const { data } = await getQualityGrades();
-      setQuality(data);
-    }
-    getQuality();
+    getQualityGrades()
+      .then(({ data }) => dispatch({ type: QUALITY, payload: data }))
+      .catch(error => dispatch({ type: ERROR }));
   }, []);
+
+  const value = {
+    contacts,
+    updChannel: ch => dispatch({ type: CHANNEL, payload: ch }),
+    updDash: dash => dispatch({ type: DASHBOARD, payload: dash }),
+    updYear: yr => dispatch({ type: YEAR, payload: yr }),
+    updTeam: tm => dispatch({ type: TEAM, payload: tm }),
+    updVisible: vz => dispatch({ type: VISIBLE, payload: vz }),
+  };
 
   return (
-    <CcdashContext.Provider
-      value={{
-        monthly,
-        daily,
-        quality,
-        channel,
-        updateChannel,
-        dashboard,
-        updateDashboard,
-        visible,
-        updateVisible,
-        year,
-        updateYear,
-        team,
-        updateTeam,
-      }}>
-      {children}
-    </CcdashContext.Provider>
+    <CcdashContext.Provider value={value}>{children}</CcdashContext.Provider>
   );
 };
 

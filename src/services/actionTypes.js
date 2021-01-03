@@ -1,0 +1,9 @@
+export const MONTHLY = 'MONTHLY';
+export const DAILY = 'DAILY';
+export const CHANNEL = 'CHANNEL';
+export const DASHBOARD = 'DASHBOARD';
+export const QUALITY = 'QUALITY';
+export const VISIBLE = 'VISIBLE';
+export const TEAM = 'TEAM';
+export const YEAR = 'YEAR';
+export const ERROR = 'ERROR';

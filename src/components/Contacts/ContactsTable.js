@@ -5,7 +5,7 @@ import TableBody from '../common/tableBody';
 import { Columns } from './Columns';
 import _ from 'lodash';
 
-const ContactsTable = ({ contacts, mnt }) => {
+const ContactsTable = ({ traffic, mnt }) => {
   const [sortCol, setSortCol] = useState({
     path: 'dayMonth',
     order: 'ascending',
@@ -13,8 +13,8 @@ const ContactsTable = ({ contacts, mnt }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    setData(contacts);
-  }, [contacts]);
+    setData(traffic);
+  }, [traffic]);
 
   const handleSort = sortColumn => {
     if (sortCol.path === sortColumn.path) {
@@ -38,7 +38,7 @@ const ContactsTable = ({ contacts, mnt }) => {
       size='small'
       selectable
       textAlign='center'
-      verticalAlign='middle'>
+      verticalAlign='top'>
       <TableHeader columns={columns} sortColumn={sortCol} onSort={handleSort} />
       <TableBody data={data} columns={columns} />
     </Table>

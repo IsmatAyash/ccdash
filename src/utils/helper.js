@@ -11,6 +11,7 @@ const initialValues = dm => ({
 });
 
 export function groupData(data) {
+  if (!data) return;
   let result = [];
   data.reduce((res, value) => {
     if (!res[value.dayMonth]) {

@@ -4,15 +4,10 @@ import Barchart from './Barchart';
 import ContactsTable from './ContactsTable';
 import { groupData } from '../../utils/helper';
 import { CcdashContext } from '../../services/context';
-import styled from 'styled-components';
-
-const StyledSegment = styled(Segment)`
-  box-shadow: none !important;
-  border: none !important;
-`;
 
 const Contacts = () => {
-  const { monthly, daily, channel } = useContext(CcdashContext);
+  const { contacts } = useContext(CcdashContext);
+  const { monthly, daily, channel } = contacts;
 
   const channels = data => {
     return channel === 'all'
@@ -25,17 +20,15 @@ const Contacts = () => {
       <Grid columns={2} centered>
         <Grid.Row stretched>
           <Grid.Column width={11}>
-            <StyledSegment>
+            <Segment basic>
               <Barchart data={channels(daily)} />
-            </StyledSegment>
-            <StyledSegment>
-              <ContactsTable contacts={channels(monthly)} mnt={true} />
-            </StyledSegment>
+              <ContactsTable traffic={channels(monthly)} mnt={true} />
+            </Segment>
           </Grid.Column>
           <Grid.Column width={5}>
-            <StyledSegment>
-              <ContactsTable contacts={channels(daily)} mnt={false} />
-            </StyledSegment>
+            <Segment basic>
+              <ContactsTable traffic={channels(daily)} mnt={false} />
+            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>
